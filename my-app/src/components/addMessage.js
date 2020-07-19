@@ -2,14 +2,16 @@ import React from "react";
 import {connect} from 'react-redux'
 import {addMSG} from '../action/index'
 import styled from 'styled-components'
+import api from '../api'
 
-const AddMessage = ({dispatch}) => {
+const AddMessage = () => {
     let inputText;
     let inputName;
 
+
     return (
         <Content>
-            <form onSubmit={e => {
+            <form onSubmit={async e => {
                 e.preventDefault()
                 if (!inputName.value.trim()) {
                     alert("Name is empty!")
@@ -19,12 +21,13 @@ const AddMessage = ({dispatch}) => {
                     alert("Message is empty!")
                     return
                 }
-
-                dispatch(addMSG(inputName.value,inputText.value))
-                console.log("input:",inputText.value);
-                console.log("input:",inputName.value);
-                inputText.value = ''
-                inputName.value = ''
+                const name = inputName.value;
+                const msg = inputText.value;
+                const payload = { name, msg}
+                await api.insertMsg(payload).then(res => {
+                    window.alert(`Movie inserted successfully`)
+                    window.location.reload()
+                })
             }}>
                 <div className="field">
                     <label>
@@ -47,6 +50,7 @@ const AddMessage = ({dispatch}) => {
                     </button>
                 </div>
             </form>
+
         </Content>
     )
 }

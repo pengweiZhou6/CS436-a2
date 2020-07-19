@@ -4,8 +4,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Header from "./Header";
 import Container from "./Container";
 import ReactDOM from 'react-dom';
-import './index.css';
-import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducers from './reducer';  //we exported combineReducers
@@ -22,6 +20,5 @@ ReactDOM.render(
     document.getElementById('root')
 );
 
-serviceWorker.unregister();
 
 

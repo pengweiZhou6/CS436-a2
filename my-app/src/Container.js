@@ -5,6 +5,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 
 import Home from "./components/Home";
+import MessageUpdate from "./components/MessageUpdate";
 import AboutMe from "./AboutMe";
 
 
@@ -21,6 +22,7 @@ function Container({ location }) {
                         <Switch location={location}>
                             <Route exact path="/" component={Home} />
                             <Route path="/AboutMe" component={AboutMe} />
+                            <Route path="/update/:id" component={MessageUpdate}/>
                         </Switch>
                     </section>
                 </CSSTransition>

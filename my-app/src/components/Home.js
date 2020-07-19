@@ -1,51 +1,185 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react'
+import ReactTable from 'react-table-6'
+import api from '../api'
+import 'react-table-6/react-table.css'
 import img from '../UBC.jpg';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import AddMessage from './addMessage';
-import reducers from "../reducer";
-import DisplayDetail from './DisplayDetail';
-import {popMSG} from "../action";
 
 
-function Home(props) {
 
-    function renderMSG(msg) {
+
+class UpdateMsg extends Component {
+    updateUser = event => {
+        event.preventDefault()
+
+        window.location.href = `/update/${this.props.id}`
+    }
+
+    render() {
+        return <Update onClick={this.updateUser}>Update</Update>
+    }
+}
+
+class DeleteMsg extends Component {
+    deleteUser = event => {
+        event.preventDefault()
+
+        if (
+            window.confirm(
+                `Do tou want to delete the message from ${this.props.msg.name} permanently?`,
+            )
+        ) {
+            api.deleteMsgById(this.props.msg._id)
+            window.location.reload()
+        }
+    }
+    render() {
+        return <Delete onClick={this.deleteUser}>Delete</Delete>
+    }
+}
+
+
+class Home extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            messages: [],
+            columns: [],
+            isLoading: false,
+        }
+    }
+
+    deleteAll() {
+        if (
+            window.confirm(
+                `Do tou want to delete ALL messages permanently?`,
+            )
+        ) {
+            api.deleteAllMsg()
+            window.location.reload()
+        }
+    }
+
+    componentDidMount = async () => {
+        this.setState({isLoading: true});
+
+        await api.getAllMsg().then(messages => {
+            this.setState({
+                messages: messages.data,
+                isLoading: false,
+            })
+        })
+    };
+
+
+    render() {
+        const { messages, isLoading } = this.state
+        console.log('TCL: MessagesList -> render -> messages', messages)
+        console.log('length', messages.length)
+        const columns = [
+            {
+                Header: 'Name',
+                accessor: 'name',
+                filterable: true,
+            },
+            {
+                Header: 'Message',
+                accessor: 'msg',
+                filterable: true,
+            },
+            {
+                Header: 'Time',
+                accessor: 'createdAt',
+                filterable: true,
+            },
+            {
+                Header: 'Delete',
+                accessor: '',
+                Cell: function(props) {
+                    return (
+                        <span>
+                            <DeleteMsg msg={props.original} />
+                        </span>
+                    )
+                },
+            },
+            {
+                Header: 'Edit',
+                accessor: '',
+                Cell: function(props) {
+                    return (
+                        <span>
+                            <UpdateMsg id={props.original._id} />
+                        </span>
+                    )
+                },
+            },
+        ]
+
+        let showTable = false
+        if (messages.length !== 0 || typeof messages.length === "undefined") {
+            if (messages.data.length) {
+                console.log('pass:', messages.data)
+                showTable = true
+            }
+        }
+
         return (
-            <div>
-            <wrap key={msg.id} {...msg} onClick={() => props.popMSG(msg.id)}>
-                <td> {msg.name}</td>
-                <td>: </td>
-                <td> {msg.msg}</td>
-            </wrap>
-            <DisplayDetail detail={msg}/>
-            </div>
-        );
+            <Content>
+                <div className="header">Welcome</div>
+                <AddMessage/>
+                <button onClick={this.deleteAll} >
+                    Delete All
+                </button>
+                <div className="content_list">
+                    <p>Message Board!</p>
+                    <Wrapper>
+                        {showTable && (
+                            <div className="table">
+                            <ReactTable
+                                data={messages.data}
+                                columns={columns}
+                                loading={isLoading}
+                                defaultPageSize={10}
+                                showPageSizeOptions={true}
+                                minRows={0}
+                            />
+                            </div>
+                        )}
+                        {!showTable && (
+                            <div className="empty">Empty! Please say something :)</div>
+                        )}
+                    </Wrapper>
+                </div>
+            </Content>
 
+        );
     }
 
 
-    console.log("initial state",props.msg)
-    return (
-        <Content>
-            <div className="header">Welcome</div>
-            <AddMessage />
-            <div className="content_list">
-                <p>Message Board!</p>
-                {/*<button id="show" className="show_list" onClick="showList();">Show List*/}
-                {/*</button>*/}
-                {/*<button id="hide" className="hide_list" onClick="hideList();">Hide List*/}
-                {/*</button>*/}
-                {/*<button id="clear" className="clear_list" onClick="clearList();">Clear List*/}
-                {/*</button>*/}
-                <ul>
-                    {props.msg.map(renderMSG)}
-                </ul>
-            </div>
-        </Content>
 
-    );
 }
+const Wrapper = styled.div`
+    padding: 0 40px 40px 40px;
+    div.table {
+    background-color: white;
+    }
+    div.empty {
+    color: white;
+    background-color: black;
+    text-align: center;
+    }
+`
+const Update = styled.div`
+    color: #ef9b0f;
+    cursor: pointer;
+`
+
+const Delete = styled.div`
+    color: #ff0000;
+    cursor: pointer;
+`
 
 const Content = styled.div`
     margin: 0;
@@ -75,10 +209,4 @@ const Content = styled.div`
     }
 `;
 
-
-
-const mapStateToProps = (state) => { //name is by convention
-    return { msg: state.msg}; //now it will appear as props
-}
-
-export default connect(mapStateToProps, {popMSG})(Home);
+export default Home
