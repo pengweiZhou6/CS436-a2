@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cd my-app && npm run build",
-    "install-client": "cd my-app && npm install && npm install -S react-router-dom",
+    "install-client": "cd my-app && npm install && yarn add react-router-dom",
     "heroku-postbuild": "npm run install-client && npm run build",
     "start": "node index.js",
     "client": "cd my-app && npm start"
