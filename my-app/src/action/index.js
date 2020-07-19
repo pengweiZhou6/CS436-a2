@@ -27,8 +27,8 @@ export const popMSG = id => ({
     type: POP_MSG,
     id
 })
-console.log("111")
-
+console.log("111222333")
+console.log("port:",process.env.PORT);
 export const deleteMSG = id => {
     return {
         type: DELETE_MSG,
