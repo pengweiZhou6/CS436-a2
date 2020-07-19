@@ -22,11 +22,13 @@ if (process.env.NODE_ENV === 'production'){
     // })
     // app.get('/', (req, res) => {
     //     res.send('Pass')
+
     // })
+    app.get('/', (req, res) => {
+        res.send(process.env.MONGODB_URI)
+    })
 }
-// app.get('/', (req, res) => {
-//     res.send(process.env.MONGODB_URI)
-// })
+
 
 
 app.use('/api', msgRouter)
