@@ -4,17 +4,14 @@ import axios from 'axios'
 const apiPort = process.env.PORT || 8000
 
 
-const api = axios.create({
-    baseURL: 'http://localhost:'+ apiPort +'/api',
-})
 
 
-export const insertMsg = payload => api.post(`/message`, payload)
-export const getAllMsg = () => api.get(`/messages`)
-export const updateMsgById = (id, payload) => api.put(`/message/${id}`, payload)
-export const deleteMsgById = id => api.delete(`/message/${id}`)
-export const deleteAllMsg = () => api.delete(`/messages`)
-export const getMsgById = id => api.get(`/message/${id}`)
+export const insertMsg = payload => axios.post('/message', payload)
+export const getAllMsg = () => axios.get('/messages')
+export const updateMsgById = (id, payload) => axios.put(`/message/${id}`, payload)
+export const deleteMsgById = id => axios.delete(`/message/${id}`)
+export const deleteAllMsg = () => axios.delete(`/messages`)
+export const getMsgById = id => axios.get(`/message/${id}`)
 
 const apis = {
     insertMsg,
