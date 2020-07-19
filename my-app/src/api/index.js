@@ -1,8 +1,13 @@
 import axios from 'axios'
 
+
+const apiPort = process.env.PORT || 8000
+
+
 const api = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: 'http://localhost:'+ apiPort +'/api',
 })
+
 
 export const insertMsg = payload => api.post(`/message`, payload)
 export const getAllMsg = () => api.get(`/messages`)
