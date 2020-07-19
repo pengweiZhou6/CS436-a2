@@ -23,6 +23,6 @@ app.use('/api', msgRouter)
 
 
 if (process.env.NODE_ENV === 'production'){
-    app.use(express.static('../my-app/build'))
+    app.use(express.static('my-app/build'))
 }
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))
