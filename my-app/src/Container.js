@@ -22,7 +22,7 @@ function Container({ location }) {
                         <Switch location={location}>
                             <Route exact path="/" component={Home} />
                             <Route path="/AboutMe" component={AboutMe} />
-                            <Route path="/update/:id" component={MessageUpdate}/>
+                            <Route path="/Update/:id" component={MessageUpdate}/>
                         </Switch>
                     </section>
                 </CSSTransition>

@@ -10,14 +10,8 @@ import AddMessage from './addMessage';
 
 
 class UpdateMsg extends Component {
-    updateUser = event => {
-        event.preventDefault()
-
-        window.location.href = `/update/${this.props.id}`
-    }
-
     render() {
-        return <Update onClick={this.updateUser}>Update</Update>
+        return <Update to={`/Update/${this.props.id}`}>Update</Update>
     }
 }
 
