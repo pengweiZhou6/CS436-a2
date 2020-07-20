@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const morgan = require('morgan');
+
 const cors = require('cors')
 
 const db = require('./db')
@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'production'){
 //     res.send(process.env.MONGODB_URI)
 // })
 
-app.use(morgan('tiny'));
+
 app.use('/api', msgRouter)
 
 

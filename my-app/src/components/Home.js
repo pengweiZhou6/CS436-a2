@@ -5,13 +5,14 @@ import 'react-table-6/react-table.css'
 import img from '../UBC.jpg';
 import styled from 'styled-components';
 import AddMessage from './addMessage';
+import {Link} from "react-router-dom";
 
 
 
 
 class UpdateMsg extends Component {
     render() {
-        return <Update to={`/Update/${this.props.id}`}>Update</Update>
+        return <Link to={`/Update/${this.props.id}`}>Update</Link>
     }
 }
 
