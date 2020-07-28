@@ -11,6 +11,7 @@ import {Link} from "react-router-dom";
 
 
 class UpdateMsg extends Component {
+
     render() {
         return <Link to={`/Update/${this.props.id}`}>Update</Link>
     }
