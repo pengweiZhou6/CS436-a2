@@ -23,7 +23,7 @@
     "mongoose": "^5.9.21",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
-    "axios": "^0.19.2"
+    "axios": "^0.21.1"
   },
   "devDependencies": {
     "aws-sdk": "^2.715.0"
